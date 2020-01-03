@@ -11,6 +11,7 @@ import logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class CaronaBot():
@@ -25,8 +26,7 @@ class CaronaBot():
         self.feature_handler = {}
         for f in self.features:
             self.feature_handler[f.NOME] = f
-            dispatcher.add_handler(
-                CommandHandler(f.NOME, self.command_handler, pass_args=True))
+            dispatcher.add_handler(CommandHandler(f.NOME, self.command_handler, pass_args=True))
 
     def command_handler(self, bot, update, args):
         user = update.message.from_user
@@ -40,9 +40,10 @@ class CaronaBot():
                 res = self.feature_handler[name].processar(
                     user.username, chat_id, arg)
             except Exception as e:
-                res = "%s (%s)" % (MSGS["general_error"], e.__str__())
+                logger.error(e.__str__())
+                return "%s (%s)" % (MSGS["general_error"], e.__str__())
         bot.send_message(
-            chat_id=update.message.chat.id, text=res.replace("_","\\_"),
+            chat_id=update.message.chat.id, text=res.replace("_", "\\_"),
             parse_mode=telegram.ParseMode.MARKDOWN)
 
 if __name__ == '__main__':
