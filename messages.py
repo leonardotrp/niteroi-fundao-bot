@@ -16,24 +16,26 @@ MSGS = {
     "removed": "Carona de {0} removida com sucesso! %s" % emojize(":wink:", use_aliases=True),
     "vaga_alterarda": "Sua carona de {0} agora possui {1} vagas %s" % emojize(":wink:", use_aliases=True),
     "remove_err": "Entrada inválida! %s (Ex: /remover volta ou /remover ida)" % emojize(":flushed:", use_aliases=True),
-    "help_header": "Bot para simplificar a organização do grupo de caronas %s\n\n Comandos do bot:\n" % emojize(":smiley:", use_aliases=True),
-    "help_footer": "OBS:\n\t\t> Para utilizar o bot, você precisa de um username em configurações." +
-                   "\n\t\t> As caronas desaparecem da lista 20 minutos após passar o " +
-                   "horário definido na IDA/VOLTA.\n",
-    "feature_line": "{0}) /{1}{2}",
+    "help_header": "%s Comandos do bot:\n\n" % emojize(":book:", use_aliases=True),
+    "help_footer": "*OBS*:" +
+                   "\n\t\t%s Para utilizar o bot, é *imprescindível* que você tenha seu @username, definido em configurações." % emojize(":bust_in_silhouette:", use_aliases=True) +
+                   "\n\t\t%s As caronas desaparecem da lista 20 minutos após passar o horário definido na IDA/VOLTA." % emojize(":hourglass:", use_aliases=True) +
+                   "\n\t\t%s Atenção motoristas! Ofereça suas caronas *somente* através dos comandos /ida e /volta." % emojize(":warning:", use_aliases=True),
+    "feature_line": "*{0})* /{1}{2}",
     "sobre":
         "FregolaeBot:\n" +
         "\tAutores: @pedropauloskf e @almeidakayan\n" +
         "\tVersão adaptada por @leonardo_pereira para o grupo Niterói-Fundão.\n\n" +
         "\tCódigo fonte: https://github.com/leonardotrp/niteroi-fundao-bot",
-    "ida_description": " [horario] [vagas] [notas]: Adiciona uma carona de IDA, com o horário de chegada no Fundão, " +
-                        " o número de vagas (opcional) seguido de demais informações relevantes (opcional).\n " +
-                       "Ex: /ida 09:30 4 Fonseca\nSe não for informado um horário, serão listadas as caronas de IDA\n\n",
-    "volta_description": " [horario] [vagas] [notas]: Adiciona uma carona de VOLTA, com o horário de saída do Fundão, " +
+    "ida_description": " [horario] [num.vagas] [notas]: Adiciona uma carona de IDA, com o horário de *chegada* no Fundão, " +
+                        "o número de vagas (opcional) seguido de demais informações relevantes (opcional).\n " +
+                       "Ex: /ida 07:30 3 Fonseca\n\t\t> Se não for informado o horário, serão listadas as caronas de IDA." +
+                        "\n\t\t> Se não for informado o número de vagas, serão assumidas 4 vagas.\n\n",
+    "volta_description": " [horario] [num.vagas] [notas]: Adiciona uma carona de VOLTA, com o horário de *saída* do Fundão, " +
                         " o número de vagas (opcional) seguido de demais informações relevantes (opcional).\n " +
                        "Ex: /volta 17:30 3 Fonseca\n\t\t> Se não for informado o horário, serão listadas as caronas de VOLTA." +
                         "\n\t\t> Se não for informado o número de vagas, serão assumidas 4 vagas.\n\n",
     "remove_description": " [ida/volta]: Remove da lista a sua carona de IDA/VOLTA.\n\n",
-    "vagas_description": " [ida/volta]: Altera o número de vagas da sua carona de IDA/VOLTA.\n Ex: /vagas ida 3 ou /vagas volta 0.\n\n",
+    "vagas_description": " [ida/volta] [num.vagas]: Altera o número de vagas da sua carona de IDA/VOLTA.\n Ex: /vagas ida 3 ou /vagas volta 0.\n\n",
     "caronas_description": " : Lista todas as caronas ativas no momento, separadas por dia, IDA e VOLTA.\n\n"
 }
