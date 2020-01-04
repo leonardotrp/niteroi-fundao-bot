@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 from messages import MSGS
 from timeutil import valida_horario
 import logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO)
+import re
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
@@ -37,12 +37,15 @@ class BaseIdaVolta(BotFeature):
         else:
             try:
                 carona = valida_horario(args[0])
-                notes = "" if len(args) == 1 else " ".join(args[1:])
+                if len(args) > 1 and not re.search(r'^[0-4]+$', args[1]):
+                    return MSGS["ida_err"]
+                vagas = int(args[1]) if len(args) > 1 and re.search(r'^[0-4]+$', args[1]) else 4
+                notes = "" if len(args) == 2 else " ".join(args[2:])
 
                 carona.update({
                     "username": username,
                     "chat_id": chat_id, "tipo": self.TYPE,
-                    "ativo": 1, "notes": notes
+                    "ativo": 1, "vagas": vagas, "notes": notes
                 })
                 try:
                     self.bd_cliente.insere_bd(carona)
@@ -56,18 +59,37 @@ class BaseIdaVolta(BotFeature):
 
     def get_message(self, username, carona):
         data_carona = carona["horario"].time().strftime("%X")[:5]
-        prefix = "Ida" if self.TYPE == 1 else "Volta"
+        vagas = carona["vagas"]
+        prefix = "IDA" if self.TYPE == 1 else "VOLTA"
         return f"Carona de {prefix} para às {data_carona} " + \
-            f"oferecida por @{username}. {carona.get('notes', '')}"
+            f"oferecida por @{username} com {vagas} vagas.\nObs.: {carona.get('notes', '')}"
 
 
 class Ida(BaseIdaVolta):
     pass
 
+
 class Volta(BaseIdaVolta):
     TYPE = 2
     NOME = 'volta'
     DESCRIPTION = f"volta_description"
+
+
+class Vagas(BotFeature):
+    NOME = "vagas"
+    DESCRIPTION = "vagas_description"
+
+    def processar(self, username, chat_id, args):
+        if len(args) != 2 or args[0] not in ("ida", "volta") or not re.search(r'^[0-4]+$', args[1]):
+            return MSGS["vagas_err"]
+        else:
+            tipo = 1 if args[0] == "ida" else 2
+            vagas = int(args[1])
+            if self.bd_cliente.set_vagas_bd(tipo, chat_id, username, vagas):
+                return str.format(MSGS["vaga_alterarda"], args[0], vagas)
+            else:
+                return str.format(MSGS["vagas_inexistentes"], args[0])
+
 
 class Remover(BotFeature):
     NOME = "remover"
@@ -77,8 +99,8 @@ class Remover(BotFeature):
         if len(args) != 1 or args[0] not in ("ida", "volta"):
             return MSGS["remove_err"]
         else:
-            self.bd_cliente.desativar_bd(
-                1 if args[0] == "ida" else 2, chat_id, username)
+            tipo = 1 if args[0] == "ida" else 2
+            self.bd_cliente.desativar_bd(tipo, chat_id, username)
             return str.format(MSGS["removed"], args[0])
 
 
@@ -89,27 +111,26 @@ class Caronas(BotFeature):
     def processar(self, username, chat_id, args):
         ida = self.bd_cliente.busca_bd(1, chat_id)
         volta = self.bd_cliente.busca_bd(2, chat_id)
-        return MSGS["ida_titulo"] + ida + MSGS["volta_titulo"] + volta
+        return MSGS["caronas_header"] + MSGS["ida_titulo"] + ida + MSGS["volta_titulo"] + volta
 
 
-class Start(BotFeature):
-    NOME = "start"
+class Ola(BotFeature):
+    NOME = "ola"
 
     def processar(self, username, chat_id, args):
         return MSGS["start"]
 
 
-class Help(BotFeature):
-    NOME = "help"
+class Ajuda(BotFeature):
+    NOME = "ajuda"
 
     def processar(self, username, chat_id, features):
         msg = MSGS["help_header"]
         i = 1
         for f in features:
-            if (f.NOME in ("start", "help", "sobre")):
+            if f.NOME in ("ola", "ajuda", "sobre"):
                 continue
-            msg += str.format(MSGS["feature_line"], i,
-                              f.NOME, MSGS.get(f.DESCRIPTION, f.DESCRIPTION))
+            msg += str.format(MSGS["feature_line"], i, f.NOME, MSGS.get(f.DESCRIPTION, f.DESCRIPTION))
             i += 1
         msg += MSGS["help_footer"]
         return msg
