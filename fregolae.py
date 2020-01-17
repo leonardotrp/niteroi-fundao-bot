@@ -27,20 +27,48 @@ class CaronaBot(object):
             self.feature_handler[f.NOME] = f
             dispatcher.add_handler(CommandHandler(f.NOME, self.command_handler, pass_args=True))
 
+    @staticmethod
+    def __contains_args__(small, big):
+        for i in range(len(big) - len(small) + 1):
+            for j in range(len(small)):
+                if big[i + j] != small[j]:
+                    break
+            else:
+                return i, i + len(small)
+        return False
+
+    @staticmethod
+    def __get_cmd_args__(cmd, msg, args):
+        cmd_text = '/%s' % cmd
+        result_contains = CaronaBot.__contains_args__(msg.split(' '), args)
+        if cmd_text in args and result_contains:
+            return args[result_contains[0]+1:result_contains[1]]
+        elif not result_contains:
+            idx_next = len(args)
+            for idx in range(0, len(args)):
+                if args[idx].startswith('/'):
+                    idx_next = idx
+                    break
+            return args[0:idx_next]
+
     def command_handler(self, bot, update, args):
         user = update.message.from_user
+        chat_id = update.message.chat.id
+        message_text = update.message.text
         if user is None or user.username is None:
-            res = MSGS["username_error"]
+            res = MSGS["username_error"].replace('_', '\\_')
+            bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.MARKDOWN)
         else:
-            name = update.message.text.replace("@", " ").split(' ')[0].replace('/', '')
-            chat_id = update.message.chat.id
-            try:
-                arg = args if name not in ("ola", "ajuda", "sobre") else self.features
-                res = self.feature_handler[name].processar(user.username, chat_id, arg)
-            except Exception as e:
-                logger.error(e.__str__())
-                return "%s (%s)" % (MSGS["general_error"], e.__str__())
-        bot.send_message(chat_id=update.message.chat.id, text=res.replace('_', '\\_'), parse_mode=telegram.ParseMode.MARKDOWN)
+            for message in message_text.split('\n'):
+                cmd = message.replace("@", " ").split(' ')[0].replace('/', '')
+                cmd_args = CaronaBot.__get_cmd_args__(cmd, message, args)
+                try:
+                    cmd_args = cmd_args if cmd not in ("ola", "ajuda", "sobre") else self.features
+                    res = self.feature_handler[cmd].processar(user.username, chat_id, cmd_args)
+                except Exception as e:
+                    logger.error(e.__str__())
+                    return "%s (%s)" % (MSGS["general_error"], e.__str__())
+                bot.send_message(chat_id=chat_id, text=res.replace('_', '\\_'), parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 if __name__ == '__main__':
