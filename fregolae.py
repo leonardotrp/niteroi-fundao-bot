@@ -8,7 +8,7 @@ from messages import MSGS
 from db import MongoDbClient
 
 import logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
@@ -16,7 +16,8 @@ class CaronaBot(object):
     def __init__(self, bd_cliente):
         self.bd_cliente = bd_cliente
         self.features = [
-            features.Caronas(self.bd_cliente), features.Ida(self.bd_cliente), features.Volta(self.bd_cliente),
+            features.Caronas(self.bd_cliente), features.Ida(self.bd_cliente),
+            features.Volta(self.bd_cliente), features.Bairros(self.bd_cliente),
             features.Vagas(self.bd_cliente), features.Remover(self.bd_cliente),
             features.Ola(None), features.Ajuda(None), features.Sobre(None)]
         self.feature_handler = {}

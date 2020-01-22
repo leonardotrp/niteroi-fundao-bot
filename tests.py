@@ -11,7 +11,7 @@ class DummyDb(DbClient):
     def insere_bd(self, carona):
         pass
 
-    def busca_bd(self, tipo, chat_id):
+    def busca_bd(self, tipo, chat_id, args=None):
         return self.IDA if tipo == 1 else self.VOLTA
 
     def desativar_bd(self, tipo, chat_id, username):

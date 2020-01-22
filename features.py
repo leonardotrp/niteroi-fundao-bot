@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from messages import MSGS
-from timeutil import valida_horario
+import util
 import logging
 import re
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
@@ -29,40 +29,44 @@ class BaseIdaVolta(BotFeature):
     def processar(self, username, chat_id, args):
         if len(args) == 0:
             try:
-                return MSGS[f"{self.NOME}_titulo"] + self.bd_cliente.busca_bd(
-                    self.TYPE, chat_id)
+                return MSGS[f"{self.NOME}_titulo"] + self.bd_cliente.busca_bd(self.TYPE, chat_id)
             except Exception as e:
                 logger.error(e.__str__())
                 return "%s (%s)" % (MSGS["list_error"], e.__str__())
+        elif len(args) < 3:
+            return MSGS["ida_err"]
         else:
             try:
-                carona = valida_horario(args[0])
-                if len(args) > 1 and not re.search(r'^[0-4]+$', args[1]):
-                    return MSGS["ida_err"]
-                vagas = int(args[1]) if len(args) > 1 and re.search(r'^[0-4]+$', args[1]) else 4
-                notes = "" if len(args) == 2 else " ".join(args[2:])
-
+                carona = util.valida_horario(args[0])
+                vagas = util.valida_vagas(args)
+                bairro = util.valida_bairro(self, args[2])
+                notes = "" if len(args) == 3 else " ".join(args[3:])
                 carona.update({
-                    "username": username,
-                    "chat_id": chat_id, "tipo": self.TYPE,
-                    "ativo": 1, "vagas": vagas, "notes": notes
+                    'username': username,
+                    'chat_id': chat_id,
+                    'tipo': self.TYPE,
+                    'ativo': 1,
+                    'vagas': vagas,
+                    'bairro': bairro,
+                    'notes': notes
                 })
-                try:
-                    self.bd_cliente.insere_bd(carona)
-                    return self.get_message(username, carona)
-                except Exception as e:
-                    logger.error(e.__str__())
-                    return "%s (%s)" % (MSGS["add_error"], e.__str__())
+                self.bd_cliente.insere_bd(carona)
+                return self.get_message(username, carona)
             except ValueError as e:
                 logger.error(e.__str__())
-                return "%s (%s)" % (MSGS["invalid_time_error"], e.__str__())
+                return e.__str__()
+            except Exception as e:
+                logger.error(e.__str__())
+                return "%s (%s)" % (MSGS["add_error"], e.__str__())
 
     def get_message(self, username, carona):
         data_carona = carona["horario"].time().strftime("%X")[:5]
         vagas = carona["vagas"]
-        prefix = "IDA" if self.TYPE == 1 else "VOLTA"
-        return f"Carona de {prefix} para às {data_carona} " + \
-            f"oferecida por @{username} com {vagas} vagas.\nObs.: {carona.get('notes', '')}"
+        preffix = "IDA" if self.TYPE == 1 else "VOLTA"
+        suffix = "origem" if self.TYPE == 1 else "destino"
+        suffix = "%s '%s'" % (suffix, carona['bairro']['nome'])
+        return f"Carona de {preffix} para às {data_carona} " + \
+            f"oferecida por @{username}, {suffix} com {vagas} vagas.\nObs.: {carona.get('notes', '')}"
 
 
 class Ida(BaseIdaVolta):
@@ -91,6 +95,14 @@ class Vagas(BotFeature):
                 return str.format(MSGS["vagas_inexistentes"], args[0])
 
 
+class Bairros(BotFeature):
+    NOME = "bairros"
+    DESCRIPTION = "bairros_description"
+
+    def processar(self, username, chat_id, args):
+        return MSGS["bairros_header"] + self.bd_cliente.bairros_bd()
+
+
 class Remover(BotFeature):
     NOME = "remover"
     DESCRIPTION = "remove_description"
@@ -109,8 +121,8 @@ class Caronas(BotFeature):
     DESCRIPTION = "caronas_description"
 
     def processar(self, username, chat_id, args):
-        ida = self.bd_cliente.busca_bd(1, chat_id)
-        volta = self.bd_cliente.busca_bd(2, chat_id)
+        ida = self.bd_cliente.busca_bd(1, chat_id, args)
+        volta = self.bd_cliente.busca_bd(2, chat_id, args)
         return MSGS["caronas_header"] + MSGS["ida_titulo"] + ida + MSGS["volta_titulo"] + volta
 
 

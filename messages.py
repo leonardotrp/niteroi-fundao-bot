@@ -4,13 +4,15 @@ MSGS = {
     "list_error": "%s Ocorreu um erro ao buscar a lista. Tente novamente." % emojize(":warning:", use_aliases=True),
     "add_error": "%s Ocorreu um erro ao adicionar a carona. Tente novamente." % emojize(":warning:", use_aliases=True),
     "invalid_time_error": "Horário inválido! %s" % emojize(":flushed:", use_aliases=True),
-    "ida_err": "Entrada inválida! %s (Ex: /ida 08:00 4 obs_ida ou /volta 17:00 3 obs_volta)" % emojize(":flushed:", use_aliases=True),
-    "vagas_err": "Entrada inválida! %s O número de vagas deve ser 0, 1, 2, 3 ou 4. (Ex: /vagas ida 4 ou /vagas volta 0)" % emojize(":flushed:", use_aliases=True),
+    "ida_err": "Entrada inválida! %s ( Ex: /ida {hh:mm} {0-4} {código bairro} {obs. ida} )" % emojize(":flushed:", use_aliases=True),
+    "vagas_err": "Número de vagas inválido! %s O número de vagas deve estar entre 0 e 4. (Ex: /vagas ida 4 ou /vagas volta 0)" % emojize(":flushed:", use_aliases=True),
+    "bairro_err": "Bairro inválido! %s Verifique o código do bairro através do comando /bairros" % emojize(":flushed:", use_aliases=True),
     "vagas_inexistentes": "%s Você precisa primeiro cadastrar uma carona de {0}." % emojize(":no_entry:", use_aliases=True),
     "username_error": "%s Crie um username nas configurações do seu Telegram para poder utilizar este Bot" % emojize(":no_entry:", use_aliases=True),
     "general_error": "%s Ocorreu um erro. Tente novamente." % emojize(":warning:", use_aliases=True),
     "start": "Olá, eu sou o FregolaeBot!\nO seu bot de caronas para a Ilha do Fundão",
     "caronas_header": "%s *CARONAS* %s" % (emojize(":blue_car:", use_aliases=True), emojize(":car:", use_aliases=True)),
+    "bairros_header": "%s *REGIÕES - BAIRROS*\n----------------------------------\n" % emojize(":house_with_garden:", use_aliases=True),
     "ida_titulo": "\n------------------------\n%s *IDA*\n" % emojize(":arrow_heading_up:", use_aliases=True),
     "volta_titulo": "\n------------------------\n%s *VOLTA*\n" % emojize(":arrow_heading_down:", use_aliases=True),
     "removed": "Carona de {0} removida com sucesso! %s" % emojize(":wink:", use_aliases=True),
@@ -27,15 +29,16 @@ MSGS = {
         "\tAutores: @pedropauloskf e @almeidakayan\n" +
         "\tVersão adaptada por @leonardo_pereira para o grupo Niterói-Fundão.\n\n" +
         "\tCódigo fonte: https://github.com/leonardotrp/niteroi-fundao-bot",
-    "ida_description": " [horario] [num.vagas] [notas]: Adiciona uma carona de IDA, com o horário de *chegada* no Fundão, " +
-                        "o número de vagas (opcional) seguido de demais informações relevantes (opcional).\n " +
-                       "Ex: /ida 07:30 3 Fonseca\n\t\t> Se não for informado o horário, serão listadas as caronas de IDA." +
+    "ida_description": " {hh:mm} {0-4} {código bairro} {obs. ida}: Adiciona uma carona de IDA, com o horário de *chegada* no Fundão, " +
+                        "o número de vagas, seguido do código do bairro (origem) e demais informações relevantes (opcional).\n " +
+                       "Ex: /ida 07:30 3 101 Obs.de ida\n\t\t> Se não for informado o horário, serão listadas as caronas de IDA." +
                         "\n\t\t> Se não for informado o número de vagas, serão assumidas 4 vagas.\n\n",
-    "volta_description": " [horario] [num.vagas] [notas]: Adiciona uma carona de VOLTA, com o horário de *saída* do Fundão, " +
-                        " o número de vagas (opcional) seguido de demais informações relevantes (opcional).\n " +
-                       "Ex: /volta 17:30 3 Fonseca\n\t\t> Se não for informado o horário, serão listadas as caronas de VOLTA." +
+    "volta_description": " {hh:mm} {0-4} {código bairro} {obs. volta}: Adiciona uma carona de VOLTA, com o horário de *saída* do Fundão, " +
+                        "o número de vagas, seguido do código do bairro (destino) e demais informações relevantes (opcional).\n " +
+                       "Ex: /ida 07:30 3 101 Obs.de volta\n\t\t> Se não for informado o horário, serão listadas as caronas de VOLTA." +
                         "\n\t\t> Se não for informado o número de vagas, serão assumidas 4 vagas.\n\n",
     "remove_description": " [ida/volta]: Remove da lista a sua carona de IDA/VOLTA.\n\n",
     "vagas_description": " [ida/volta] [num.vagas]: Altera o número de vagas da sua carona de IDA/VOLTA.\n Ex: /vagas ida 3 ou /vagas volta 0.\n\n",
+    "bairros_description": " : Lista todos os bairros e suas regiões.\n\n",
     "caronas_description": " : Lista todas as caronas ativas no momento, separadas por dia, IDA e VOLTA.\n\n"
 }

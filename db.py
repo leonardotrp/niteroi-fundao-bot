@@ -1,9 +1,14 @@
 from abc import ABC, abstractmethod
 import pymongo
+import logging
+import re
 from emoji import emojize
 from pymongo import MongoClient
 from datetime import datetime
-from timeutil import FUSO
+from util import FUSO
+
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 class DbClient(ABC):
@@ -18,7 +23,7 @@ class DbClient(ABC):
 
     # Funçao para recuperar a lista de caronas ativas
     @abstractmethod
-    def busca_bd(self, tipo, chat_id):
+    def busca_bd(self, tipo, chat_id, args):
         pass
 
     # Funçao para desativar caronas
@@ -54,7 +59,37 @@ class MongoDbClient(DbClient):
             caronas_col.update_many(conditions, {"$set": {"ativo": 0}})
         caronas_col.insert_one(carona)
 
-    def busca_bd(self, tipo, chat_id):
+    def filtro_bairros(self, args):
+        if len(args) > 0:
+            filtro = " ".join(args[0:])
+
+            try:
+                id = int(filtro)
+
+                # tenta filtrar caronas pelo código do bairro
+                bairro_by_id = self.get_bairro(id)
+                if bairro_by_id:
+                    return [bairro_by_id]
+
+                # tenta filtrar caronas pelo codigo da região
+                bairros_by_regiao = self.get_bairros(id)
+                if bairros_by_regiao:
+                    return bairros_by_regiao
+
+            except Exception:
+                # tenta filtrar caronas pelo nome da região
+                regiao_by_name = list(self.db.regioes.find({'nome': re.compile(filtro, re.IGNORECASE)}))
+                if len(regiao_by_name) > 0:
+                    bairros_by_regiao = self.get_bairros(regiao_by_name[0]['id'])
+                    if bairros_by_regiao:
+                        return bairros_by_regiao
+
+                bairros_by_name = list(self.db.bairros.find({'nome': re.compile(filtro, re.IGNORECASE)}))
+                return bairros_by_name
+
+        return None
+
+    def busca_bd(self, tipo, chat_id, args):
         caronas_col = self.db.caronas
 
         # Verifica se tem caronas para antes do horário atual ainda ativas e desativa-as
@@ -67,10 +102,12 @@ class MongoDbClient(DbClient):
         if caronas_col.count_documents(conditions) > 0:
             caronas_col.update_many(conditions, {"$set": {"ativo": 0}})
 
-        res = caronas_col.find(
-            {"ativo": 1, "tipo": tipo, "chat_id": chat_id}).sort(
-            "horario", pymongo.ASCENDING)
+        filtros = {"ativo": 1, "tipo": tipo, "chat_id": chat_id}
+        bairros = self.filtro_bairros(args)
+        if bairros and len(bairros) > 0:
+            filtros.update({'bairro': {'$in': bairros}})
 
+        res = caronas_col.find(filtros).sort("horario", pymongo.ASCENDING)
         msg = ""
         dia = 0
         for carona in res:
@@ -78,12 +115,30 @@ class MongoDbClient(DbClient):
                 dia = carona["horario"].day
                 mes = carona["horario"].month
                 msg += "\n%s *%s/%s*\n" % (emojize(":calendar:", use_aliases=True), str(dia), str(mes))
-            carona_dsc = carona["horario"].time().strftime("%X")[:5] + \
-                " - @" + carona["username"] + " " + \
-                carona.get("notes", "")
+            horario = carona["horario"].time().strftime("%X")[:5]
+            username = '@%s' % carona['username']
+            bairro = carona['bairro']['nome']
+            vagas = carona['vagas']
+            notes = carona.get("notes", "")
+            carona_dsc = f"{horario} - {username} - {bairro} ({vagas} vagas) {notes}"
             emoj = ":no_entry_sign:" if carona['vagas'] == 0 else ":white_check_mark:"
-            msg += "%s (%s vagas) %s\n" % (carona_dsc, carona['vagas'],  emojize(emoj, use_aliases=True))
+            msg += "%s %s\n" % (carona_dsc, emojize(emoj, use_aliases=True))
         return msg
+
+    def bairros_bd(self):
+        msg = ''
+        for regiao in self.db.regioes.find().sort([('id', 1)]):
+            msg += '\t*%s. %s*\n' % (regiao['id'], regiao['nome'])
+            bairros = self.db.bairros.find({'regiao_id': regiao['id']}).sort([('id', 1)])
+            for bairro in bairros:
+                msg += '\t\t\t%s. %s\n' % (bairro['id'], bairro['nome'])
+        return msg
+
+    def get_bairro(self, bairro_id):
+        return self.db.bairros.find_one({'id': bairro_id})
+
+    def get_bairros(self, regiao_id):
+        return list(self.db.bairros.find({'regiao_id': regiao_id}))
 
     def desativar_bd(self, tipo, chat_id, username):
         caronas_col = self.db.caronas
