@@ -57,8 +57,8 @@ class CaronaBot(object):
         chat_id = update.message.chat.id
         message_text = update.message.text
         if user is None or user.username is None:
-            res = MSGS["username_error"].replace('_', '\\_')
-            bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.MARKDOWN)
+            res = MSGS["username_error"]
+            bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
         else:
             for message in message_text.split('\n'):
                 cmd = message.replace("@", " ").split(' ')[0].replace('/', '')
@@ -69,7 +69,7 @@ class CaronaBot(object):
                 except Exception as e:
                     logger.error(e.__str__())
                     return "%s (%s)" % (MSGS["general_error"], e.__str__())
-                bot.send_message(chat_id=chat_id, text=res.replace('_', '\\_'), parse_mode=telegram.ParseMode.MARKDOWN)
+                bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
 
 
 if __name__ == '__main__':

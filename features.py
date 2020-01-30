@@ -29,7 +29,7 @@ class BaseIdaVolta(BotFeature):
     def processar(self, username, chat_id, args):
         if len(args) == 0:
             try:
-                return MSGS[f"{self.NOME}_titulo"] + self.bd_cliente.busca_bd(self.TYPE, chat_id)
+                return MSGS[f"{self.NOME}_titulo"] + self.bd_cliente.busca_bd(self.TYPE, chat_id, args)
             except Exception as e:
                 logger.error(e.__str__())
                 return "%s (%s)" % (MSGS["list_error"], e.__str__())
@@ -47,8 +47,8 @@ class BaseIdaVolta(BotFeature):
                     'tipo': self.TYPE,
                     'ativo': 1,
                     'vagas': vagas,
-                    'bairro': bairro,
-                    'notes': notes
+                    'notes': notes,
+                    'bairro': bairro
                 })
                 self.bd_cliente.insere_bd(carona)
                 return self.get_message(username, carona)
@@ -65,7 +65,7 @@ class BaseIdaVolta(BotFeature):
         preffix = "IDA" if self.TYPE == 1 else "VOLTA"
         suffix = "origem" if self.TYPE == 1 else "destino"
         suffix = "%s '%s'" % (suffix, carona['bairro']['nome'])
-        return f"Carona de {preffix} para às {data_carona} " + \
+        return f"Carona de {preffix} às {data_carona} " + \
             f"oferecida por @{username}, {suffix} com {vagas} vagas.\nObs.: {carona.get('notes', '')}"
 
 

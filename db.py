@@ -114,21 +114,21 @@ class MongoDbClient(DbClient):
             if carona["horario"].day != dia:
                 dia = carona["horario"].day
                 mes = carona["horario"].month
-                msg += "\n%s *%s/%s*\n" % (emojize(":calendar:", use_aliases=True), str(dia), str(mes))
+                msg += "\n%s <b>%s/%s</b>\n" % (emojize(":calendar:", use_aliases=True), str(dia), str(mes))
             horario = carona["horario"].time().strftime("%X")[:5]
             username = '@%s' % carona['username']
             bairro = carona['bairro']['nome']
             vagas = carona['vagas']
             notes = carona.get("notes", "")
-            carona_dsc = f"{horario} - {username} - {bairro} ({vagas} vagas) {notes}"
-            emoj = ":no_entry_sign:" if carona['vagas'] == 0 else ":white_check_mark:"
-            msg += "%s %s\n" % (carona_dsc, emojize(emoj, use_aliases=True))
+            carona_dsc = f"<b>{horario}</b> - {username} - {bairro} ({vagas} vagas) {notes}"
+            carona_dsc = ("<s>%s</s>" % carona_dsc) if carona['vagas'] == 0 else carona_dsc
+            msg += "%s\n" % carona_dsc
         return msg
 
     def bairros_bd(self):
         msg = ''
         for regiao in self.db.regioes.find().sort([('id', 1)]):
-            msg += '\t*%s. %s*\n' % (regiao['id'], regiao['nome'])
+            msg += '\t<b>%s. %s</b>\n' % (regiao['id'], regiao['nome'])
             bairros = self.db.bairros.find({'regiao_id': regiao['id']}).sort([('id', 1)])
             for bairro in bairros:
                 msg += '\t\t\t%s. %s\n' % (bairro['id'], bairro['nome'])
