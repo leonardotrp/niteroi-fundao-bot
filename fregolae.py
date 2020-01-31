@@ -19,7 +19,7 @@ class CaronaBot(object):
             features.Caronas(self.bd_cliente), features.Ida(self.bd_cliente),
             features.Volta(self.bd_cliente), features.Bairros(self.bd_cliente),
             features.Vagas(self.bd_cliente), features.Remover(self.bd_cliente),
-            features.Ola(None), features.Ajuda(None), features.Sobre(None)]
+            features.Start(None), features.Ajuda(None), features.Sobre(None)]
         self.feature_handler = {}
         self.init_features()
 
@@ -69,6 +69,10 @@ class CaronaBot(object):
                 except Exception as e:
                     logger.error(e.__str__())
                     return "%s (%s)" % (MSGS["general_error"], e.__str__())
+                #finally:
+                #    url_delete_message = "https://api.telegram.org/bot%s/deleteMessage?chat_id=%d&message_id=%d" % (urllib.parse.quote(TOKEN), chat_id, update.message.message_id)
+                #    content = urllib.request.urlopen(url_delete_message).read()
+                #    print(content)
                 bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
 
 

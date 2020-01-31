@@ -59,33 +59,45 @@ class MongoDbClient(DbClient):
             caronas_col.update_many(conditions, {"$set": {"ativo": 0}})
         caronas_col.insert_one(carona)
 
-    def filtro_bairros(self, args):
+    def filtro_bairros(self, args, filtros):
         if len(args) > 0:
             filtro = " ".join(args[0:])
 
             try:
                 id = int(filtro)
 
-                # tenta filtrar caronas pelo código do bairro
+                # tenta filtrar bairros pelo código do bairro
                 bairro_by_id = self.get_bairro(id)
                 if bairro_by_id:
                     return [bairro_by_id]
 
-                # tenta filtrar caronas pelo codigo da região
+                # tenta filtrar bairros pelo codigo da região
                 bairros_by_regiao = self.get_bairros(id)
                 if bairros_by_regiao:
                     return bairros_by_regiao
 
             except Exception:
-                # tenta filtrar caronas pelo nome da região
+                bairros = []
+                # tenta filtrar bairros pelo nome da região
                 regiao_by_name = list(self.db.regioes.find({'nome': re.compile(filtro, re.IGNORECASE)}))
                 if len(regiao_by_name) > 0:
                     bairros_by_regiao = self.get_bairros(regiao_by_name[0]['id'])
                     if bairros_by_regiao:
-                        return bairros_by_regiao
+                        bairros.extend(bairros_by_regiao)
 
+                # tenta filtrar bairros pelo nome do bairro
                 bairros_by_name = list(self.db.bairros.find({'nome': re.compile(filtro, re.IGNORECASE)}))
-                return bairros_by_name
+                if len(bairros_by_name) > 0:
+                    bairros.extend(bairros_by_name)
+
+                # tenta filtrar bairros pela nota das caronas
+                filtro_caronas = {}
+                filtro_caronas.update(filtros)
+                filtro_caronas.update({'notes': re.compile(filtro, re.IGNORECASE)})
+                for carona in self.db.caronas.find(filtro_caronas):
+                    bairros.append(carona['bairro'])
+
+                return bairros
 
         return None
 
@@ -103,8 +115,8 @@ class MongoDbClient(DbClient):
             caronas_col.update_many(conditions, {"$set": {"ativo": 0}})
 
         filtros = {"ativo": 1, "tipo": tipo, "chat_id": chat_id}
-        bairros = self.filtro_bairros(args)
-        if bairros and len(bairros) > 0:
+        bairros = self.filtro_bairros(args, filtros)
+        if bairros is not None:
             filtros.update({'bairro': {'$in': bairros}})
 
         res = caronas_col.find(filtros).sort("horario", pymongo.ASCENDING)

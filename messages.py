@@ -10,7 +10,9 @@ MSGS = {
     "vagas_inexistentes": "%s Você precisa primeiro cadastrar uma carona de {0}." % emojize(":no_entry:", use_aliases=True),
     "username_error": "%s Crie um username nas configurações do seu Telegram para poder utilizar este Bot" % emojize(":no_entry:", use_aliases=True),
     "general_error": "%s Ocorreu um erro. Tente novamente." % emojize(":warning:", use_aliases=True),
-    "start": "Olá, eu sou o FregolaeBot!\nO seu bot de caronas para a Ilha do Fundão",
+    "start": "Olá! Eu sou o <b>NiteroiFundaoBot</b> e sou o responsável pelo gerenciamento das caronas." +
+             "\nPara o bom andamento do grupo, não deixe de ler as <b><a href='https://t.me/c/1330301957/9'>regras</a></b>." +
+             "\n\nSeja bem-vindo e boas caronas!",
     "caronas_header": "%s <b>CARONAS</b> %s" % (emojize(":blue_car:", use_aliases=True), emojize(":car:", use_aliases=True)),
     "bairros_header": "%s <b>REGIÕES - BAIRROS</b>\n----------------------------------\n" % emojize(":house_with_garden:", use_aliases=True),
     "ida_titulo": "\n------------------------\n%s <b>IDA</b>\n" % emojize(":arrow_heading_up:", use_aliases=True),
@@ -25,9 +27,9 @@ MSGS = {
                    "\n\t\t%s Atenção motoristas! Ofereça suas caronas <b>somente</b> através dos comandos /ida e /volta." % emojize(":warning:", use_aliases=True),
     "feature_line": "<b>{0})</b> /{1}{2}",
     "sobre":
-        "FregolaeBot:\n" +
-        "\tAutores: @pedropauloskf e @almeidakayan\n" +
-        "\tVersão adaptada por @leonardo_pereira para o grupo Niterói-Fundão.\n\n" +
+        "<b>NiteroiFundaoBot</b>:\n" +
+        "\tResponsável técnico: @leonardo_pereira\n"
+        "\tAdaptação do <i>FregolaeBot</i>, Bot criado originalmente por @pedropauloskf e @almeidakayan.\n" +
         "\tCódigo fonte: https://github.com/leonardotrp/niteroi-fundao-bot",
     "ida_description": " {hh:mm} {0-4} {código bairro} {obs ida}: Adiciona uma carona de IDA, com o horário de <b>chegada</b> no Fundão, " +
                         "o número de vagas, seguido do código do bairro (origem) e demais informações relevantes (opcional).\n " +

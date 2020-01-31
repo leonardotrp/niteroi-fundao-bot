@@ -126,8 +126,8 @@ class Caronas(BotFeature):
         return MSGS["caronas_header"] + MSGS["ida_titulo"] + ida + MSGS["volta_titulo"] + volta
 
 
-class Ola(BotFeature):
-    NOME = "ola"
+class Start(BotFeature):
+    NOME = "start"
 
     def processar(self, username, chat_id, args):
         return MSGS["start"]
