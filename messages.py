@@ -45,5 +45,5 @@ MSGS = {
     "bairros_description": " : Lista todos os bairros e suas regiões.\n\n",
     "caronas_description": " : Lista das caronas, com filro opcional.\n" +
                            "> Uso: /caronas [filtro]\n" +
-                           "> O filtro pode ser código/nome do bairro/região ou parte da observação da carona].\n\n"
+                           "> O filtro pode ser código/nome do bairro/região ou parte da observação da carona.\n\n"
 }
