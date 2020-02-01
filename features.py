@@ -38,7 +38,7 @@ class BaseIdaVolta(BotFeature):
         else:
             try:
                 carona = util.valida_horario(args[0])
-                vagas = util.valida_vagas(args)
+                vagas = util.valida_vagas(self.NOME, args)
                 bairro = util.valida_bairro(self, args[2])
                 notes = "" if len(args) == 3 else " ".join(args[3:])
                 carona.update({
@@ -121,9 +121,13 @@ class Caronas(BotFeature):
     DESCRIPTION = "caronas_description"
 
     def processar(self, username, chat_id, args):
-        ida = self.bd_cliente.busca_bd(1, chat_id, args)
-        volta = self.bd_cliente.busca_bd(2, chat_id, args)
-        return MSGS["caronas_header"] + MSGS["ida_titulo"] + ida + MSGS["volta_titulo"] + volta
+        try:
+            ida = self.bd_cliente.busca_bd(1, chat_id, args)
+            volta = self.bd_cliente.busca_bd(2, chat_id, args)
+            return MSGS["caronas_header"] + MSGS["ida_titulo"] + ida + MSGS["volta_titulo"] + volta
+        except Exception as e:
+            logger.error(e.__str__())
+            return "%s (%s)" % (MSGS["add_error"], e.__str__())
 
 
 class Start(BotFeature):
@@ -140,7 +144,7 @@ class Ajuda(BotFeature):
         msg = MSGS["help_header"]
         i = 1
         for f in features:
-            if f.NOME in ("ola", "ajuda", "sobre"):
+            if f.NOME in ("start", "ajuda", "sobre"):
                 continue
             msg += str.format(MSGS["feature_line"], i, f.NOME, MSGS.get(f.DESCRIPTION, f.DESCRIPTION))
             i += 1

@@ -132,7 +132,7 @@ class MongoDbClient(DbClient):
             bairro = carona['bairro']['nome']
             vagas = carona['vagas']
             notes = carona.get("notes", "")
-            carona_dsc = f"<b>{horario}</b> - {username} - {bairro} ({vagas} vagas) {notes}"
+            carona_dsc = f"<b>{horario}</b> - {username} - {bairro} ({vagas} vagas). {notes}"
             carona_dsc = ("<s>%s</s>" % carona_dsc) if carona['vagas'] == 0 else carona_dsc
             msg += "%s\n" % carona_dsc
         return msg

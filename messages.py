@@ -4,8 +4,9 @@ MSGS = {
     "list_error": "%s Ocorreu um erro ao buscar a lista. Tente novamente." % emojize(":warning:", use_aliases=True),
     "add_error": "%s Ocorreu um erro ao adicionar a carona. Tente novamente." % emojize(":warning:", use_aliases=True),
     "invalid_time_error": "Horário inválido! %s" % emojize(":flushed:", use_aliases=True),
-    "ida_err": "Entrada inválida! %s ( Ex: /ida {hh:mm} {0-4} {código bairro} {obs ida} )" % emojize(":flushed:", use_aliases=True),
-    "vagas_err": "Número de vagas inválido! %s O número de vagas deve estar entre 0 e 4. (Ex: /vagas ida 4 ou /vagas volta 0)" % emojize(":flushed:", use_aliases=True),
+    "ida_err": "IDA inválida! %s Uso: /ida [hh:mm] [0-4] [cód.bairro] [obs de ida]" % emojize(":flushed:", use_aliases=True),
+    "volta_err": "VOLTA inválida! %s Uso: /volta [hh:mm] [0-4] [cód.bairro] [obs de volta]" % emojize(":flushed:", use_aliases=True),
+    "vagas_err": "Alteração de vagas inválida! %s Uso: /vagas [ida ou volta] [0-4]" % emojize(":flushed:", use_aliases=True),
     "bairro_err": "Bairro inválido! %s Verifique o código do seu bairro através do comando /bairros" % emojize(":flushed:", use_aliases=True),
     "vagas_inexistentes": "%s Você precisa primeiro cadastrar uma carona de {0}." % emojize(":no_entry:", use_aliases=True),
     "username_error": "%s Crie um username nas configurações do seu Telegram para poder utilizar este Bot" % emojize(":no_entry:", use_aliases=True),
@@ -31,16 +32,18 @@ MSGS = {
         "\tResponsável técnico: @leonardo_pereira\n"
         "\tAdaptação do <i>FregolaeBot</i>, Bot criado originalmente por @pedropauloskf e @almeidakayan.\n" +
         "\tCódigo fonte: https://github.com/leonardotrp/niteroi-fundao-bot",
-    "ida_description": " {hh:mm} {0-4} {código bairro} {obs ida}: Adiciona uma carona de IDA, com o horário de <b>chegada</b> no Fundão, " +
-                        "o número de vagas, seguido do código do bairro (origem) e demais informações relevantes (opcional).\n " +
-                       "Ex: /ida 07:30 3 101 Obs.de ida\n\t\t> Se não for informado o horário, serão listadas as caronas de IDA." +
-                        "\n\t\t> Se não for informado o número de vagas, serão assumidas 4 vagas.\n\n",
-    "volta_description": " {hh:mm} {0-4} {código bairro} {obs volta}: Adiciona uma carona de VOLTA, com o horário de <b>saída</b> do Fundão, " +
-                        "o número de vagas, seguido do código do bairro (destino) e demais informações relevantes (opcional).\n " +
-                       "Ex: /ida 07:30 3 101 Obs.de volta\n\t\t> Se não for informado o horário, serão listadas as caronas de VOLTA." +
-                        "\n\t\t> Se não for informado o número de vagas, serão assumidas 4 vagas.\n\n",
-    "remove_description": " {ida/volta}: Remove da lista a sua carona de IDA/VOLTA.\n\n",
-    "vagas_description": " {ida/volta} {0-4}: Altera o número de vagas da sua carona de IDA/VOLTA.\n Ex: /vagas ida 3 ou /vagas volta 0.\n\n",
+    "ida_description": " : Inclui uma carona de IDA.\n" +
+                       "> Uso: /ida [hh:mm] [0-4] [cód.bairro] [obs de ida].\n" +
+                       "> O horário de IDA é o de <b>chegada</b> no Fundão.\n\n",
+    "volta_description": " : Inclui uma carona de VOLTA.\n" +
+                         "> Uso: /volta [hh:mm] [0-4] [cód.bairro] [obs de volta].\n" +
+                         "> O horário de VOLTA é o de <b>saída</b> do Fundão.\n\n",
+    "remove_description": " : Remove uma carona.\n" +
+                          "> Uso: /remover [ida ou volta].\n\n",
+    "vagas_description": " : Altera o número de vagas.\n" +
+                         "> Uso: /vagas [ida ou volta] [0-4]\n\n",
     "bairros_description": " : Lista todos os bairros e suas regiões.\n\n",
-    "caronas_description": " : Lista todas as caronas ativas no momento, separadas por dia, IDA e VOLTA.\n\n"
+    "caronas_description": " : Lista das caronas, com filro opcional.\n" +
+                           "> Uso: /caronas [filtro]\n" +
+                           "> O filtro pode ser código/nome do bairro/região ou parte da observação da carona].\n\n"
 }
