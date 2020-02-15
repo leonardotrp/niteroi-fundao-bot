@@ -12,7 +12,7 @@ MSGS = {
     "username_error": "%s Crie um username nas configurações do seu Telegram para poder utilizar este Bot" % emojize(":no_entry:", use_aliases=True),
     "general_error": "%s Ocorreu um erro. Tente novamente." % emojize(":warning:", use_aliases=True),
     "start": "Olá! Eu sou o <b>NiteroiFundaoBot</b> e sou o responsável pelo gerenciamento das caronas." +
-             "\nPara o bom andamento do grupo, não deixe de ler as <b><a href='https://t.me/c/1330301957/3189'>regras</a></b>." +
+             "\nPara o bom andamento do grupo, não deixe de ler as <b><a href='https://t.me/c/1330301957/3197'>regras</a></b>." +
              "\n\nSeja bem-vindo e boas caronas!",
     "caronas_header": "%s <b>CARONAS</b> %s" % (emojize(":blue_car:", use_aliases=True), emojize(":car:", use_aliases=True)),
     "bairros_header": "%s <b>REGIÕES - BAIRROS</b>\n----------------------------------\n" % emojize(":house_with_garden:", use_aliases=True),
