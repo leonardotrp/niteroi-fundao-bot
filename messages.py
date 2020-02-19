@@ -11,9 +11,15 @@ MSGS = {
     "vagas_inexistentes": "%s Você precisa primeiro cadastrar uma carona de {0}." % emojize(":no_entry:", use_aliases=True),
     "username_error": "%s Crie um username nas configurações do seu Telegram para poder utilizar este Bot" % emojize(":no_entry:", use_aliases=True),
     "general_error": "%s Ocorreu um erro. Tente novamente." % emojize(":warning:", use_aliases=True),
-    "start": "Olá! Eu sou o <b>NiteroiFundaoBot</b> e sou o responsável pelo gerenciamento das caronas." +
-             "\nPara o bom andamento do grupo, não deixe de ler as <b><a href='https://t.me/c/1330301957/3197'>regras</a></b>." +
+    "general_start": "Olá <b>{member_name}</b>! Eu sou o <b><a href='https://t.me/niteroi_fundao_bot'>NiteroiFundaoBot</a></b> e sou o responsável pelo gerenciamento das caronas." +
              "\n\nSeja bem-vindo e boas caronas!",
+    "group_start": "Olá <b>{member_name}</b>! {bem_vindo}\n\nEu sou o <b><a href='https://t.me/niteroi_fundao_bot'>NiteroiFundaoBot</a></b> e sou o responsável pelo gerenciamento das caronas." +
+             "\nPara o bom andamento do grupo, não deixe de ler e observar as <b><a href='https://t.me/c/1330301957/3197'>regras</a></b>." +
+             "\nVocê é motorista? Gerencie suas caronas comigo <b>somente</b> no privado (@niteroi_fundao_bot)" +
+             "\n\nBoas caronas!",
+    "private_start": "Olá <b>{member_name}</b>!\n\nAdministre todas as suas caronas neste chat privado." +
+             "\nConfira por aqui ou no grupo a lista atualizada através do comando /caronas." +
+             "\n\nBoas caronas!",
     "caronas_header": "%s <b>CARONAS</b> %s" % (emojize(":blue_car:", use_aliases=True), emojize(":car:", use_aliases=True)),
     "bairros_header": "%s <b>REGIÕES - BAIRROS</b>\n----------------------------------\n" % emojize(":house_with_garden:", use_aliases=True),
     "ida_titulo": "\n------------------------\n%s <b>IDA</b>\n" % emojize(":arrow_heading_up:", use_aliases=True),
