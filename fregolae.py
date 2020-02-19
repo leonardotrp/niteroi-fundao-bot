@@ -1,13 +1,16 @@
-import telegram
-from telegram.ext import Updater, CommandHandler
+import logging
 import os
+
+import telegram
+from telegram.error import Unauthorized
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+
 import features
-from messages import MSGS
 # If you want to test bot without persistence
 # from tests import DummyDb
 from db import MongoDbClient
+from messages import MSGS
 
-import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -19,14 +22,38 @@ class CaronaBot(object):
             features.Caronas(self.bd_cliente), features.Ida(self.bd_cliente),
             features.Volta(self.bd_cliente), features.Bairros(self.bd_cliente),
             features.Vagas(self.bd_cliente), features.Remover(self.bd_cliente),
-            features.Start(None), features.Ajuda(None), features.Sobre(None)]
+            features.Start(self.bd_cliente), features.Ajuda(None), features.Sobre(None)
+        ]
         self.feature_handler = {}
         self.init_features()
+        self.init_chat_members()
 
     def init_features(self):
         for f in self.features:
             self.feature_handler[f.NOME] = f
             dispatcher.add_handler(CommandHandler(f.NOME, self.command_handler, pass_args=True))
+
+    def init_chat_members(self):
+        new_members_handle = MessageHandler(Filters.status_update.new_chat_members, self.new_chat_members)
+        dispatcher.add_handler(new_members_handle)
+
+        left_member_handle = MessageHandler(Filters.status_update.left_chat_member, self.left_chat_member)
+        dispatcher.add_handler(left_member_handle)
+
+    def new_chat_members(self, bot, update):
+        chat_id = update.message.chat.id
+        for user in update.message.new_chat_members:
+            if not user.is_bot:
+                if self.bd_cliente.ativar_membro(user.id, 1):
+                    res = MSGS['group_start'].format(member_name=user.first_name, bem_vindo='Bem-vindo de volta.')
+                else:
+                    self.bd_cliente.insere_membro(user)
+                    res = MSGS['group_start'].format(member_name=user.first_name, bem_vindo='Seja bem-vindo.')
+                bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
+
+    def left_chat_member(self, bot, update):
+        user = update.message.left_chat_member
+        self.bd_cliente.ativar_membro(user.id, 0) # desativar
 
     @staticmethod
     def __contains_args__(small, big):
@@ -64,15 +91,14 @@ class CaronaBot(object):
                 cmd = message.replace("@", " ").split(' ')[0].replace('/', '')
                 cmd_args = CaronaBot.__get_cmd_args__(cmd, message, args)
                 try:
-                    cmd_args = cmd_args if cmd not in ("ola", "ajuda", "sobre") else self.features
-                    res = self.feature_handler[cmd].processar(user.username, chat_id, cmd_args)
+                    cmd_args = cmd_args if cmd not in ("start", "ajuda", "sobre") else self.features
+                    res = self.feature_handler[cmd].processar(user, chat_id, cmd_args)
+                except Unauthorized as e:
+                    logger.error(e.__str__())
+                    res = e.__str__()
                 except Exception as e:
                     logger.error(e.__str__())
-                    return "%s (%s)" % (MSGS["general_error"], e.__str__())
-                #finally:
-                #    url_delete_message = "https://api.telegram.org/bot%s/deleteMessage?chat_id=%d&message_id=%d" % (urllib.parse.quote(TOKEN), chat_id, update.message.message_id)
-                #    content = urllib.request.urlopen(url_delete_message).read()
-                #    print(content)
+                    res = "%s (%s)" % (MSGS["general_error"], e.__str__())
                 bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
 
 
@@ -82,4 +108,5 @@ if __name__ == '__main__':
     updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
     CaronaBot(MongoDbClient(MONGO))
+
     updater.start_polling()

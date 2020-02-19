@@ -41,6 +41,18 @@ class DbClient(ABC):
     def desconectar(self):
         pass
 
+    @abstractmethod
+    def get_membro(self, membro_id):
+        pass
+
+    @abstractmethod
+    def ativar_membro(self, membro_id, ativar):
+        pass
+
+    @abstractmethod
+    def insere_membro(self, membro):
+        pass
+
     def __del__(self):
         if self.client is not None:
             self.desconectar()
@@ -170,3 +182,20 @@ class MongoDbClient(DbClient):
     def desconectar(self):
         if self.client is not None:
             self.client.close()
+
+    def get_membro(self, membro_id):
+        return self.db.membros.find_one({'id': membro_id})
+
+    def ativar_membro(self, membro_id, ativar):
+        membro = self.db.membros.find_one_and_update({'id': membro_id}, {'$set': {'ativo': ativar}})
+        return True if membro else False
+
+    def insere_membro(self, user):
+        membro = {
+            'id': user.id,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'ativo': 1
+        }
+        self.db.membros.insert_one(membro)
