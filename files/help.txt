@@ -1,0 +1,7 @@
+{emoji_title} Comandos do bot:
+
+{features}
+<b>Observações</b>:
+{emoji_obs_1} Para utilizar o Bot é <b>mandatório</b> que você tenha seu @username definido em seu perfil.
+{emoji_obs_2} As caronas desaparecem da lista 20 minutos após passar o horário definido na IDA/VOLTA.
+{emoji_obs_3} Você é motorista? Ofereça suas caronas <b>somente</b> em chat privado com o @niteroi_fundao_bot.
