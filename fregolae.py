@@ -22,7 +22,7 @@ class CaronaBot(object):
             features.Caronas(self.bd_cliente), features.Ida(self.bd_cliente),
             features.Volta(self.bd_cliente), features.Bairros(self.bd_cliente),
             features.Vagas(self.bd_cliente), features.Remover(self.bd_cliente),
-            features.Start(self.bd_cliente), features.Ajuda(None), features.Sobre(None)
+            features.Start(self.bd_cliente), features.Ajuda(self.bd_cliente), features.Sobre(self.bd_cliente)
         ]
         self.feature_handler = {}
         self.init_features()

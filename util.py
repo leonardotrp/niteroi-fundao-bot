@@ -1,6 +1,7 @@
 import datetime
 import logging
 import re
+from emoji import emojize
 
 from pytz import timezone
 
@@ -41,3 +42,8 @@ def valida_bairro(feature, arg):
     if not bairro:
         raise ValueError(MSGS['bairro_err'])
     return bairro
+
+
+def emoji(name):
+    name = ":{name}:".format(name=name)
+    return emojize(name, use_aliases=True)

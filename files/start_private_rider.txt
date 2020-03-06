@@ -1,0 +1,7 @@
+Olá <b>{member_name}</b>!
+
+Prezado caroneiro, confira neste chat privado ou no grupo a lista atualizada das /caronas com filtro opcional.
+Para o bom andamento do grupo, leia nossas /regras, medidas de /seguranca e boas /praticas.
+Peça /ajuda a qualquer momento.
+
+Boas caronas!

@@ -6,6 +6,7 @@ from abc import ABC
 from telegram.error import Unauthorized
 
 import util
+from util import emoji
 from messages import MSGS
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -13,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 NITEROI_FUNDAO_ID = -1001330301957
 NITEROI_FUNDAO_TEST_ID = -302317240
+NITEROI_FUNDAO_USERNAME = 'niteroi_fundao_bot'
+NITEROI_FUNDAO_RIDER_USERNAME = 'niteroi_fundao_rider_bot'
 
 
 class BotFeature(ABC):
@@ -37,7 +40,7 @@ class BotFeature(ABC):
             if not membro:
                 self.bd_cliente.insere_membro(user) # TODO depois que ficar garantido que todos os usuários do grupo estão devidamente cadastrados, retirar essa inclusão automática
         elif not self.is_private_chat(user, chat_id) or not membro or membro['ativo'] == 0:
-            raise Unauthorized('Desculpe-me. Você não tem permissão para usar este Bot.\n\nSe você for um membro do nosso grupo de caronas, envie um comando ao Bot de dentro do grupo e volte aqui novamente.')
+            raise Unauthorized('Desculpe-me. Eu ainda não lhe conheço.\n\nSe você é membro do meu grupo de caronas, envie-me um comando de lá depois volte a falar comigo no privado.')
 
 
 class BaseIdaVolta(BotFeature):
@@ -174,14 +177,18 @@ class Ajuda(BotFeature):
 
     def processar(self, user, chat_id, args):
         super(Ajuda, self).processar(user, chat_id, args)
-        msg = MSGS["help_header"]
-        i = 1
-        for f in args:
-            if f.NOME in ("start", "ajuda", "sobre"):
-                continue
-            msg += str.format(MSGS["feature_line"], i, f.NOME, MSGS.get(f.DESCRIPTION, f.DESCRIPTION))
-            i += 1
-        msg += MSGS["help_footer"]
+        features = ''
+        for idx, feature in enumerate(args):
+            if feature.NOME not in ("start", "ajuda", "sobre"):
+                features += str.format(MSGS["feature_line"], (idx+1),
+                                       feature.NOME,
+                                       MSGS.get(feature.DESCRIPTION, feature.DESCRIPTION))
+        msg = open("files/help.txt", "r").read()
+        msg = msg.format(emoji_title=emoji('book'),
+                         features=features,
+                         emoji_obs_1=emoji('bust_in_silhouette'),
+                         emoji_obs_2=emoji('hourglass'),
+                         emoji_obs_3=emoji('warning'))
         return msg
 
 
@@ -189,4 +196,37 @@ class Sobre(BotFeature):
     NOME = "sobre"
 
     def processar(self, user, chat_id, features):
-        return MSGS["sobre"]
+        super(Sobre, self).processar(user, chat_id, args)
+        return open("files/about.txt", "r").read()
+
+
+class Regras(BotFeature):
+    NOME = "regras"
+
+    def processar(self, user, chat_id, args):
+        super(Regras, self).processar(user, chat_id, args)
+        return open("files/rules.txt", "r").read()
+
+
+class Seguranca(BotFeature):
+    NOME = "seguranca"
+
+    def processar(self, user, chat_id, args):
+        super(Seguranca, self).processar(user, chat_id, args)
+        return open("files/security.txt", "r").read()
+
+
+class Praticas(BotFeature):
+    NOME = "praticas"
+
+    def processar(self, user, chat_id, args):
+        super(Praticas, self).processar(user, chat_id, args)
+        return open("files/practices.txt", "r").read()
+
+
+class Moderadores(BotFeature):
+    NOME = "moderadores"
+
+    def processar(self, user, chat_id, args):
+        super(Moderadores, self).processar(user, chat_id, args)
+        return open("files/moderators.txt", "r").read()

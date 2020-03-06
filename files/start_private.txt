@@ -1,0 +1,8 @@
+Olá <b>{member_name}</b>!
+
+Prezado motorista, você deve administrar todas as suas caronas neste chat privado.
+Para o bom andamento do grupo, leia nossas /regras, medidas de /seguranca e boas /praticas.
+Confira por aqui ou no grupo a lista atualizada das /caronas.
+Peça-me /ajuda a qualquer momento.
+
+Boas caronas!
