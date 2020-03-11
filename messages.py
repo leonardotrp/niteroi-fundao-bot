@@ -13,6 +13,7 @@ MSGS = {
     "general_error": "%s Ocorreu um erro. Tente novamente." % emojize(":warning:", use_aliases=True),
     "general_start": "Olá <b>{member_name}</b>! Eu sou o <b><a href='https://t.me/niteroi_fundao_bot'>NiteroiFundaoBot</a></b> e sou o responsável pelo gerenciamento das caronas." +
              "\n\nSeja bem-vindo e boas caronas!",
+    "unauthorized_error": "Desculpe-me, mas eu ainda não lhe conheço.\n\nSe você é membro do meu grupo de caronas, envie-me um comando de lá depois volte a falar comigo no privado.\n\nGrato pela compreensão.",
     "caronas_header": "%s <b>CARONAS</b> %s" % (emojize(":blue_car:", use_aliases=True), emojize(":car:", use_aliases=True)),
     "bairros_header": "%s <b>REGIÕES - BAIRROS</b>\n----------------------------------\n" % emojize(":house_with_garden:", use_aliases=True),
     "ida_titulo": "\n------------------------\n%s <b>IDA</b>\n" % emojize(":arrow_heading_up:", use_aliases=True),
@@ -37,6 +38,6 @@ MSGS = {
                            "\t\tObs: O filtro pode ser código/nome do bairro/região ou parte da observação da carona.\n",
     "regras_description": " : Lista as regras do grupo.\n",
     "seguranca_description": " : Dicas para uma carona segura.\n",
-    "moderadores_description": " : Lista os moderadores do grupo.\n",
-    "praticas_description": " : Boas práticas para uma boa carona.\n"
+    "praticas_description": " : Boas práticas para uma boa carona.\n",
+    "moderadores_description": " : Lista os moderadores do grupo.\n"
 }

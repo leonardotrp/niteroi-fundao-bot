@@ -2,21 +2,21 @@
 
 <b>1)</b> Todas as caronas devem ser gerenciadas <b>somente</b> pelo NiteroiFundaoBot, o qual só responde aos membros que tiverem @username cadastrado. Edite seu perfil e defina o seu.
 
-<b>2)</b> Motoristas DEVEM oferecer suas caronas <b>somente</b> em chat privado com o @niteroi_fundao_bot.
+<b>2)</b> Motoristas: gerencie suas caronas no privado com o @niteroi_fundao_bot.
 
-<b>3)</b> Caroneiros PODEM listar as /caronas tanto dentro do grupo OU em chat privado com o @niteroi_fundao_rider_bot. Trate suas caronas <b>somente</b> no particular, clicando em cima do @username do motorista escolhido.
+<b>3)</b> Caroneiros: listem as /caronas dentro do grupo ou falem com minha versão simplificada @niteroi_fundao_rider_bot no privado. Escolha sua carona clicando em cima do @username do motorista e trate com ele <b>somente</b> no particular.
 
 <b>4)</b> Para conhecer como o Bot funciona, digite /ajuda a qualquer momento.
 
-<b>5)</b> O horário de IDA deve ser sempre o horário de chegada no Fundão.
+<b>5)</b> O horário de IDA deve ser sempre o horário de <b>CHEGADA</b> no Fundão.
 
-<b>6)</b> Motoristas, como nosso grupo se propõe a atender toda a cidade, somente o bairro pode ser suficiente para os caroneiros. Use o comando /bairros e memorize seu código.
+<b>6)</b> Motoristas: como nosso grupo se propõe a atender toda a cidade, somente o bairro pode ser suficiente para os caroneiros. Use o comando /bairros e memorize seu código.
 
-<b>7)</b> Demais informações relevantes da carona devem ser escritas <b>sucintamente</b> logo após o código do bairro, como rotas, links de aplicativos de carona ou pagamentos.
+<b>7)</b> Demais informações relevantes da carona devem ser escritas <b>sucintamente</b> logo após o código do bairro, tal como rotas, links de aplicativos de carona ou pagamentos. <b>Favor não informe valores!</b>
 
-<b>8)</b> As contribuições são voluntárias! E o valor é de inteira responsabilidade do que ficar acordado entre motorista e caroneiro. Carona não é trabalho, prestação de serviço nem visa lucro. Denuncie qualquer abuso nesse sentido.
+<b>8)</b> As contribuições são voluntárias e o valor deverá ser tratado no <b>particular</b>. Lembrando que carona não é trabalho, prestação de serviço nem visa lucro. Denuncie qualquer abuso nesse sentido.
 
-<b>9)</b> Só serão permitidas mensagens que tenham relação direta com a finalidade deste grupo.
+<b>9)</b> Só serão permitidas mensagens dentro do grupo que tenham relação direta com a finalidade deste grupo.
 
 <b>10)</b> Em caso de descumprimento das regras acima, após uma ou duas advertências, o membro poderá ser banido do grupo.
 
