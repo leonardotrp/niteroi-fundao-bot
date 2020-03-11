@@ -1,9 +1,9 @@
-<b>Medidas de segurança:</b>
+<b>MEDIDAS DE SEGURANÇA:</b>
 
 1. Novos membros <b>somente</b> poderão ser incluídos mediante indicação. Envie o @username (preferencialmente) ou telefone a um dos /moderadores, informando se é motorista ou caroneiro.
 
-2. Passe mais confiança ao oferecer carona (motorista) ou pedir carona (caroneiro): deixe seu nome e foto de perfil visíveis a todos. E não esqueça de definir seu @username para falar comigo e ser encontrado mais rapidamente pelos caroneiros.
+2. Passe mais confiança ao oferecer carona (motorista) ou pedir carona (caroneiro): deixe seu nome e foto de perfil visíveis a todos. E não esqueça de definir seu @username para falar com o Bot e também ser encontrado mais rapidamente pelos caroneiros.
 
-3. Primeira vez? Procure conversar com o motorista ou o caroneiro, perguntando se ele estuda ou trabalha na UFRJ. Peça informações do carro e placa. Caso a pessoa não tiver foto no perfil, peça-a encarecidamente que coloque.
+3. Primeira vez? Procure conversar com o motorista ou o caroneiro, perguntando onde ele estuda ou trabalha na UFRJ. Peça informações do carro e placa. Caso a pessoa não tiver foto no perfil, peça-a encarecidamente que coloque.
 
 4. Toda a forma de desrespeito não será tolerada. Denuncie o fato aos /moderadores.

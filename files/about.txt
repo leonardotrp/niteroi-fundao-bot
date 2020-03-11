@@ -1,5 +1,5 @@
 <b>NiteroiFundaoBot</b>:
 
-\tResponsável técnico: @leonardo_pereira
-\tAdaptação do <i>FregolaeBot</i>, Bot criado originalmente por @pedropauloskf e @almeidakayan.
-\tCódigo fonte disponível em https://github.com/leonardotrp/niteroi-fundao-bot
+* Responsável técnico: @leonardo_pereira
+* Adaptação do <i>FregolaeBot</i>, Bot criado originalmente por @pedropauloskf e @almeidakayan.
+* Código fonte disponível em https://github.com/leonardotrp/niteroi-fundao-bot

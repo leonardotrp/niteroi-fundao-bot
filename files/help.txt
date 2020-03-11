@@ -2,6 +2,8 @@
 
 {features}
 <b>Observações</b>:
-{emoji_obs_1} Para utilizar o Bot é <b>mandatório</b> que você tenha seu @username definido em seu perfil.
+{emoji_obs_1} Para utilizar o Bot é necessário que você tenha seu @username definido em seu perfil.
 {emoji_obs_2} As caronas desaparecem da lista 20 minutos após passar o horário definido na IDA/VOLTA.
-{emoji_obs_3} Você é motorista? Ofereça suas caronas <b>somente</b> em chat privado com o @niteroi_fundao_bot.
+{emoji_obs_3} Motorista, ofereça suas caronas em chat privado com o @niteroi_fundao_bot.
+{emoji_obs_4} Caroneiro, opcionalmente fale com a versão simplificada @niteroi_fundao_rider_bot em chat privado.
+{emoji_obs_5} Somente membros do grupo de caronas têm permissão para usar o Bot em chat privado.

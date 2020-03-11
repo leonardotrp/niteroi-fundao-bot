@@ -19,10 +19,13 @@ class CaronaBot(object):
     def __init__(self, bd_cliente):
         self.bd_cliente = bd_cliente
         self.features = [
-            features.Caronas(self.bd_cliente), features.Ida(self.bd_cliente),
-            features.Volta(self.bd_cliente), features.Bairros(self.bd_cliente),
-            features.Vagas(self.bd_cliente), features.Remover(self.bd_cliente),
-            features.Start(self.bd_cliente), features.Ajuda(self.bd_cliente), features.Sobre(self.bd_cliente)
+            features.Caronas(self.bd_cliente), features.Ida(self.bd_cliente, True),
+            features.Volta(self.bd_cliente, True), features.Bairros(self.bd_cliente),
+            features.Vagas(self.bd_cliente, True), features.Remover(self.bd_cliente, True),
+            features.Start(self.bd_cliente), features.Ajuda(self.bd_cliente),
+            features.Regras(self.bd_cliente), features.Seguranca(self.bd_cliente),
+            features.Praticas(self.bd_cliente), features.Moderadores(self.bd_cliente),
+            features.Sobre(self.bd_cliente)
         ]
         self.feature_handler = {}
         self.init_features()
@@ -44,11 +47,12 @@ class CaronaBot(object):
         chat_id = update.message.chat.id
         for user in update.message.new_chat_members:
             if not user.is_bot:
+                group_start_msg = open("files/start_group.txt", "r").read()
                 if self.bd_cliente.ativar_membro(user.id, 1):
-                    res = MSGS['group_start'].format(member_name=user.first_name, bem_vindo='Bem-vindo de volta.')
+                    res = group_start_msg.format(member_name=user.first_name, bem_vindo='Bem-vindo de volta.')
                 else:
                     self.bd_cliente.insere_membro(user)
-                    res = MSGS['group_start'].format(member_name=user.first_name, bem_vindo='Seja bem-vindo.')
+                    res = group_start_msg.format(member_name=user.first_name, bem_vindo='Seja bem-vindo.')
                 bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
 
     def left_chat_member(self, bot, update):
@@ -92,7 +96,7 @@ class CaronaBot(object):
                 cmd_args = CaronaBot.__get_cmd_args__(cmd, message, args)
                 try:
                     cmd_args = cmd_args if cmd not in ("start", "ajuda", "sobre") else self.features
-                    res = self.feature_handler[cmd].processar(user, chat_id, cmd_args)
+                    res = self.feature_handler[cmd].processar(bot, user, chat_id, cmd_args)
                 except Unauthorized as e:
                     logger.error(e.__str__())
                     res = e.__str__()

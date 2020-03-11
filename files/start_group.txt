@@ -1,8 +1,9 @@
 Olá <b>{member_name}</b>! {bem_vindo}
 
-Meu nome é <b><a href='https://t.me/niteroi_fundao_bot'>NiteroiFundaoBot</a></b> e sou o responsável pela gestão das caronas.
+Meu nome é <b><a href='https://t.me/niteroi_fundao_bot'>NiteroiFundaoBot</a></b> e sou o responsável pelo gerenciamento das caronas.
 Para o bom andamento do grupo, leia nossas /regras, medidas de /seguranca e boas /praticas.
-Se você é motorista, gerencie suas caronas comigo @niteroi_fundao_bot no privado. Caso contrário, fale opcionalmente no privado com minha versão simplificada @niteroi_fundao_rider_bot.
+Se você é motorista, gerencie suas caronas em chat privado comigo @niteroi_fundao_bot.
+Se você é caroneiro, fale opcionalmente em chat privado com minha versão simplificada @niteroi_fundao_rider_bot.
 Peça-me /ajuda a qualquer momento.
 
 Boas caronas!
