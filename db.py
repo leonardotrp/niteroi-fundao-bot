@@ -5,7 +5,6 @@ import re
 from emoji import emojize
 from pymongo import MongoClient
 from datetime import datetime
-from datetime import timedelta
 from util import FUSO
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -119,7 +118,9 @@ class MongoDbClient(DbClient):
 
         # Verifica se tem caronas para antes do horário atual ainda ativas e desativa-as
         time = datetime.now(FUSO)
-        margem = time - timedelta(minutes=20)
+        margem = datetime(time.year, time.month, time.day,
+                          time.hour + (-1 if time.minute < 20 else 0),
+                          time.minute + (40 if time.minute < 20 else -20))
 
         conditions = {"ativo": 1, "chat_id": chat_id, "horario": {"$lt": margem}}
         if caronas_col.count_documents(conditions) > 0:
