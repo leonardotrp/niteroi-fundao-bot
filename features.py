@@ -253,3 +253,12 @@ class Moderadores(BotFeature):
     def processar(self, bot, user, chat_id, args):
         super(Moderadores, self).processar(bot, user, chat_id, args)
         return open("files/moderators.txt", "r").read()
+
+
+class Carpool(BotFeature):
+    NOME = "carpool"
+    DESCRIPTION = f"carpool_description"
+
+    def processar(self, bot, user, chat_id, args):
+        super(Carpool, self).processar(bot, user, chat_id, args)
+        return open("files/waze_carpool.txt", "r").read()

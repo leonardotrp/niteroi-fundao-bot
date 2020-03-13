@@ -37,5 +37,6 @@ MSGS = {
     "regras_description": " : Lista as regras do grupo.\n",
     "seguranca_description": " : Medidas para uma carona segura.\n",
     "praticas_description": " : Boas práticas para uma boa carona.\n",
-    "moderadores_description": " : Lista os moderadores do grupo.\n"
+    "moderadores_description": " : Lista os moderadores do grupo.\n",
+    "carpool_description": " : Informações úteis sobre o Waze Carpool\n"
 }
