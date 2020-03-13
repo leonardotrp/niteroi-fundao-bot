@@ -25,7 +25,7 @@ class BotFeature(ABC):
 
     def __init__(self, bd_cliente, driver_mode=False):
         self.bd_cliente = bd_cliente
-        self.group_id = int(os.environ.get("NITEROI_FUNDAO_ID"))
+        self.group_id = int(os.environ.get("GROUP_ID"))
         self.driver_mode = driver_mode
 
     @staticmethod
