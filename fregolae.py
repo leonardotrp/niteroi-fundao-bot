@@ -53,7 +53,7 @@ class CaronaBot(object):
                 else:
                     self.bd_cliente.insere_membro(user)
                     res = group_start_msg.format(member_name=user.first_name, bem_vindo='Seja bem-vindo.')
-                bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
+                bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML, disable_web_page_preview=True)
 
     def left_chat_member(self, bot, update):
         user = update.message.left_chat_member
@@ -89,7 +89,7 @@ class CaronaBot(object):
         message_text = update.message.text
         if user is None or user.username is None:
             res = MSGS["username_error"]
-            bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
+            bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML, disable_web_page_preview=True)
         else:
             for message in message_text.split('\n'):
                 cmd = message.replace("@", " ").split(' ')[0].replace('/', '')
@@ -103,7 +103,7 @@ class CaronaBot(object):
                 except Exception as e:
                     logger.error(e.__str__())
                     res = "%s (%s)" % (MSGS["general_error"], e.__str__())
-                bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML)
+                bot.send_message(chat_id=chat_id, text=res, parse_mode=telegram.ParseMode.HTML, disable_web_page_preview=True)
 
 
 if __name__ == '__main__':

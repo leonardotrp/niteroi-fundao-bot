@@ -9,11 +9,11 @@ MSGS = {
     "vagas_err": "Alteração de vagas inválida! %s Uso: /vagas [ida ou volta] [0-4]" % emojize(":flushed:", use_aliases=True),
     "bairro_err": "Bairro inválido! %s Verifique o código do seu bairro através do comando /bairros" % emojize(":flushed:", use_aliases=True),
     "vagas_inexistentes": "%s Você precisa primeiro cadastrar uma carona de {0}." % emojize(":no_entry:", use_aliases=True),
-    "username_error": "%s Crie um username nas configurações do seu Telegram para poder utilizar este Bot" % emojize(":no_entry:", use_aliases=True),
+    "username_error": "%s Defina um @username no seu perfil do Telegram para poder utilizar este Bot" % emojize(":no_entry:", use_aliases=True),
     "general_error": "%s Ocorreu um erro. Tente novamente." % emojize(":warning:", use_aliases=True),
-    "general_start": "Olá <b>{member_name}</b>! Eu sou o <b><a href='https://t.me/niteroi_fundao_bot'>NiteroiFundaoBot</a></b> e sou o responsável pelo gerenciamento das caronas." +
-             "\n\nSeja bem-vindo e boas caronas!",
-    "unauthorized_error": "Desculpe-me, mas eu ainda não lhe conheço.\n\nSe você é membro do meu grupo de caronas, envie-me um comando de lá depois volte a falar comigo no privado.\n\nGrato pela compreensão.",
+    "unauthorized_error": "%s Desculpe-me, mas eu ainda não lhe conheço.\n\nSe você é membro do meu grupo de caronas," +
+                          " envie-me um comando de lá depois volte a falar comigo no privado.\n\n" +
+                          "Grato pela compreensão." % emojize(":no_entry:", use_aliases=True),
     "caronas_header": "%s <b>CARONAS</b> %s" % (emojize(":blue_car:", use_aliases=True), emojize(":car:", use_aliases=True)),
     "bairros_header": "%s <b>REGIÕES - BAIRROS</b>\n----------------------------------\n" % emojize(":house_with_garden:", use_aliases=True),
     "ida_titulo": "\n------------------------\n%s <b>IDA</b>\n" % emojize(":arrow_heading_up:", use_aliases=True),
@@ -33,11 +33,11 @@ MSGS = {
     "vagas_description": " : Altera o número de vagas.\n" +
                          "\t\tFormato: /vagas [ida ou volta] [0-4]\n",
     "bairros_description": " : Lista todos os bairros e suas regiões.\n",
-    "caronas_description": " : Lista das caronas, com filro opcional.\n" +
+    "caronas_description": " : Lista atualizada das caronas, com filro opcional.\n" +
                            "\t\tFormato: /caronas [filtro]\n" +
                            "\t\tObs: O filtro pode ser código/nome do bairro/região ou parte da observação da carona.\n",
     "regras_description": " : Lista as regras do grupo.\n",
-    "seguranca_description": " : Dicas para uma carona segura.\n",
+    "seguranca_description": " : Medidas para uma carona segura.\n",
     "praticas_description": " : Boas práticas para uma boa carona.\n",
     "moderadores_description": " : Lista os moderadores do grupo.\n"
 }
