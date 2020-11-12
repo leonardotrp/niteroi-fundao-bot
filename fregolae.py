@@ -25,7 +25,7 @@ class CaronaBot(object):
             features.Start(self.bd_cliente), features.Ajuda(self.bd_cliente),
             features.Regras(self.bd_cliente), features.Seguranca(self.bd_cliente),
             features.Praticas(self.bd_cliente), features.Moderadores(self.bd_cliente),
-            features.Sobre(self.bd_cliente)
+            features.Sobre(self.bd_cliente), features.Carpool(self.bd_cliente)
         ]
         self.feature_handler = {}
         self.init_features()
